@@ -23,17 +23,7 @@ const app = express();
  * Cache data fetched from github
  */
 
-app.get("/git/:username", async (req, res) => {
-  try {
-    console.log("fetching data");
-    const { data } = await axios.get(`https://api.github.com/users/${req.params.username}`);
-    return res.send(formatDetails(data));
-  } catch (err) {
-    console.log(err.message);
-    return res.status(404).send("data not find");
-  }
-});
-
+// utilities
 function formatDetails(data) {
   let table = `<table>`;
   for (key in data) {
@@ -45,6 +35,28 @@ function formatDetails(data) {
         `;
   }
   return table + `</table>`;
+}
+
+// routes
+app.get("/git/:username", cache, async (req, res) => {
+  try {
+    console.log("fetching data");
+    const { data } = await axios.get(`https://api.github.com/users/${req.params.username}`);
+    client.setex(req.params.username, 10, JSON.stringify(data));
+    return res.send(formatDetails(data));
+  } catch (err) {
+    console.log(err.message);
+    return res.status(404).send("data not find");
+  }
+});
+
+// middlewares
+function cache(req, res, next) {
+  client.get(req.params.username, (err, data) => {
+    if (err) throw err;
+    if (data) return res.send(formatDetails(JSON.parse(data)));
+    else next();
+  });
 }
 
 app.listen(PORT, () => {
