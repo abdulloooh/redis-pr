@@ -9,13 +9,15 @@
 </style>
 
 <div>
+  <!-- Add task -->
   <form action="/task/add" method="post">
-    <label>Add Task</label>
-    <input type="text" name="task" placeholder="add task" />
+    <label>Add Task</label> <br />
+    <input type="text" name="task" placeholder="add task" /> <br /><br />
     <input type="submit" value="submit" />
   </form>
   <p><%=title%></p>
 
+  <!-- list tasks -->
   <form action="/task/delete" method="post">
     <ul class="task_list">
       <% tasks.forEach(task=>{ %>
@@ -26,5 +28,27 @@
       <%}) %>
     </ul>
     <input type="submit" value="remove" />
+  </form>
+
+  <!-- next call details -->
+  <h4>Next Call</h4>
+  <% for (each in nextcalldetails){ %> <%= each %> : <%=nextcalldetails[each]%> <br />
+  <% } %>
+
+  <br />
+
+  <!-- update next call -->
+  <h4>Edit Next Call</h4>
+  <form action="/edit_call" method="post">
+    <label for="name">Contact Name</label> <br />
+    <input type="text" name="name" id="name" /><br />
+    <label for="company">Company</label> <br />
+    <input type="text" name="company" id="company" /> <br />
+    <label for="phone">Phone</label> <br />
+    <input type="text" name="phone" id="phone" /> <br />
+    <label for="datetime">Date and Time</label> <br />
+    <input type="text" name="datetime" id="datetime" /> <br />
+    <br />
+    <input type="submit" value="Update" />
   </form>
 </div>

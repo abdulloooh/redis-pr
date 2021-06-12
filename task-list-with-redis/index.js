@@ -12,6 +12,7 @@ client.auth(process.env.REDIS_AUTH);
 client.on("connect", () => console.log("connected to redis client"));
 
 const taskStore = "tasks";
+let nextCallStore = "nextcall";
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -24,7 +25,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   const title = "Tasks";
   client.lrange(taskStore, 0, -1, (err, tasks) => {
-    res.render("index", { title, tasks });
+    client.hgetall(nextCallStore, (err, nextcalldetails) => {
+      res.render("index", { title, tasks, nextcalldetails });
+    });
   });
 });
 
@@ -50,6 +53,20 @@ app.post("/task/delete", (req, res) => {
     });
   });
   res.redirect("/");
+});
+
+app.post("/edit_call", (req, res) => {
+  let { name, company, phone, datetime } = req.body;
+
+  client.hset(
+    nextCallStore,
+    ["name", name, "company", company, "phone", phone, "datetime", datetime],
+    (err, response) => {
+      if (err) console.error(err);
+      else console.log(response);
+      res.redirect("/");
+    }
+  );
 });
 
 app.listen(PORT, () => console.log("listening on port ", PORT));
