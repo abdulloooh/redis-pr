@@ -28,4 +28,15 @@ app.get("/", (req, res) => {
   });
 });
 
+app.post("/task/add", (req, res) => {
+  const { task } = req.body;
+
+  client.rpush(taskStore, task, (err, response) => {
+    if (err) console.error(err);
+    else console.log("Task added: ", response);
+
+    res.redirect("/");
+  });
+});
+
 app.listen(PORT, () => console.log("listening on port ", PORT));
