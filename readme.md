@@ -1,8 +1,16 @@
 # **Quick notes**
 
-- To test `Task List` project, change `start` script in `package.json` to `"node task-list-with-redis"`
+- To test `Task List` project, run
 
-- For caching with redis example using _fetching from github_ as an example, change `start` script to `node caching`
+```
+npm run startTaskManager
+```
+
+- For `caching with redis` _fetching from github_ as an example, run
+
+```
+npm run startCache
+```
 
 <br/><br/>
 

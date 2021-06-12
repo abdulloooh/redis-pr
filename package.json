@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon task-list-with-redis"
+    "startCache": "nodemon caching",
+    "startTaskManager": "nodemon task-list-with-redis",
+    "start": "node task-list-with-redis"
   },
   "license": "MIT",
   "dependencies": {

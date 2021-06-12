@@ -4,7 +4,7 @@ const axios = require("axios");
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const REDIS_PORT = 6379;
 
 const client = redis.createClient(REDIS_PORT); // can actually be left as default w/o specifying port
