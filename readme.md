@@ -4,7 +4,7 @@
 
 > **String Data type commands**
 
-get,set,incr,incrby,decr,exists,del,flushall,keyspaces,expire,ttl,setex,clear,persist,mset,append,rename
+get,set,setnx,getset,incr,incrby,decr,exists,del,flushall,keyspaces,expire,ttl,setex,clear,persist,mset,append,rename
 
 > **List Data type commands**
 
