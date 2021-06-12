@@ -35,3 +35,17 @@ RDB (redis database snapshotting), AOF (append-only-file)
 # **MISC**
 
 Disable RDB `redis-cli config set save ""`
+
+
+Setup automatic backup of rdb to disk
+1. Install `rdiff-backup` 
+```sudo apt-get install -y rdiff-backup```
+
+2. setup rdiff-backup
+```sudo rdiff-backup --preserve-numerical-ids <memory location eg /var/.../redis> <disk backup eg /home/.../redis>
+
+3. Setup cron job to do the automatically backups
+- Edit cron jobs
+```sudo crontab -e``` 
+- Pick editor
+- Input cron job eg run everyday at 12am `0 0 * * * rdiff-backup --preserve-numerical-ids --no-file-statistics /var/lib/redis/ /home/.../redis`
