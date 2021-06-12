@@ -1,3 +1,11 @@
+# **Quick notes**
+
+- To test `Task List` project, change `start` script in `package.json` to `"node task-list-with-redis"`
+
+- For caching with redis using _fetching from github_ as an example, leave `start` script as `node index.js`
+
+<br/><br/>
+
 # **DATA TYPES**
 
 [doc](https://redis.io/topics/data-types)
@@ -36,16 +44,20 @@ RDB (redis database snapshotting), AOF (append-only-file)
 
 Disable RDB `redis-cli config set save ""`
 
+**Setup automatic backup of rdb to disk**
 
-Setup automatic backup of rdb to disk
-1. Install `rdiff-backup` 
-```sudo apt-get install -y rdiff-backup```
+1. Install `rdiff-backup`
+
+   > `sudo apt-get install -y rdiff-backup`
 
 2. setup rdiff-backup
-```sudo rdiff-backup --preserve-numerical-ids <memory location eg /var/.../redis> <disk backup eg /home/.../redis>
+
+   > `sudo rdiff-backup --preserve-numerical-ids <memory location eg /var/.../redis> <disk backup eg /home/.../redis>`
 
 3. Setup cron job to do the automatically backups
+
 - Edit cron jobs
-```sudo crontab -e``` 
+  > `sudo crontab -e`
 - Pick editor
-- Input cron job eg run everyday at 12am `0 0 * * * rdiff-backup --preserve-numerical-ids --no-file-statistics /var/lib/redis/ /home/.../redis`
+- Input cron job eg run everyday at 12am
+  > `0 0 * * * rdiff-backup --preserve-numerical-ids --no-file-statistics /var/lib/redis/ /home/.../redis`

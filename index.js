@@ -10,7 +10,7 @@ const REDIS_PORT = 6379;
 const client = redis.createClient(REDIS_PORT); // can actually be left as default w/o specifying port
 client.auth(process.env.REDIS_AUTH);
 
-client.on("ready", () => console.log("plugged to redis server..."));
+client.on("ready", () => console.log("plugged to redis server...")); // can also use on "connect" event
 
 client.on("error", (error) => console.error(error.message));
 
