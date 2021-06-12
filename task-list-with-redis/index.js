@@ -39,4 +39,17 @@ app.post("/task/add", (req, res) => {
   });
 });
 
+app.post("/task/delete", (req, res) => {
+  let { tasks } = req.body;
+  if (!Array.isArray(tasks)) tasks = [tasks];
+
+  tasks.forEach((task) => {
+    client.lrem(taskStore, 0, task, (err, response) => {
+      if (err) console.error(err);
+      else console.log(response);
+    });
+  });
+  res.redirect("/");
+});
+
 app.listen(PORT, () => console.log("listening on port ", PORT));
