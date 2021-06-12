@@ -1,1 +1,8 @@
-<p>hello <%= title %></p>
+<div>
+  <p><%=title%></p>
+  <ul>
+    <% tasks.forEach(task=>{ %>
+    <li><%=task%></li>
+    <%}) %>
+  </ul>
+</div>
