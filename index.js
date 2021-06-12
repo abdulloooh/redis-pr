@@ -5,16 +5,14 @@ const axios = require("axios");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
-const REDIS_PORT = 6379; // can actually be left as default
+const REDIS_PORT = 6379;
 
-const client = redis.createClient(REDIS_PORT);
+const client = redis.createClient(REDIS_PORT); // can actually be left as default w/o specifying port
 client.auth(process.env.REDIS_AUTH);
 
 client.on("ready", () => console.log("plugged to redis server..."));
 
-client.on("error", function (error) {
-  console.error(error.message);
-});
+client.on("error", (error) => console.error(error.message));
 
 const app = express();
 
@@ -22,6 +20,19 @@ const app = express();
  * Cache Implementation with redis
  * Cache data fetched from github
  */
+
+// routes
+app.get("/git/:username", cache, async (req, res) => {
+  try {
+    console.log("fetching data...");
+    const { data } = await axios.get(`https://api.github.com/users/${req.params.username}`);
+    client.setex(req.params.username, 20, JSON.stringify(data)); // use set only to store the data indefinitely
+    return res.send(formatDetails(data));
+  } catch (err) {
+    console.log(err.message);
+    return res.status(404).send("data not find");
+  }
+});
 
 // utilities
 function formatDetails(data) {
@@ -36,19 +47,6 @@ function formatDetails(data) {
   }
   return table + `</table>`;
 }
-
-// routes
-app.get("/git/:username", cache, async (req, res) => {
-  try {
-    console.log("fetching data");
-    const { data } = await axios.get(`https://api.github.com/users/${req.params.username}`);
-    client.setex(req.params.username, 10, JSON.stringify(data));
-    return res.send(formatDetails(data));
-  } catch (err) {
-    console.log(err.message);
-    return res.status(404).send("data not find");
-  }
-});
 
 // middlewares
 function cache(req, res, next) {
