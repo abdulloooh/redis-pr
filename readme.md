@@ -2,7 +2,7 @@
 
 - To test `Task List` project, change `start` script in `package.json` to `"node task-list-with-redis"`
 
-- For caching with redis using _fetching from github_ as an example, leave `start` script as `node index.js`
+- For caching with redis example using _fetching from github_ as an example, change `start` script to `node caching`
 
 <br/><br/>
 
